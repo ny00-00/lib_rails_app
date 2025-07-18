@@ -1,4 +1,6 @@
 class BooksController < ApplicationController
+  before_action :require_login
+  # before_action :require_librarian, only: [:edit, :update, :destroy]
   before_action :set_book, only: %i[ show edit update destroy ]
 
   # GET /books or /books.json
@@ -17,8 +19,6 @@ class BooksController < ApplicationController
     end
   end
   
-  
-
   # GET /books/1 or /books/1.json
   def show
   end
@@ -71,13 +71,18 @@ class BooksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_book
-      @book = Book.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def book_params
-      params.expect(book: [ :title, :author, :isbn, :category, :total_copies ])
+  def require_librarian
+    unless current_user&.role == 'librarian'
+      redirect_to books_path, alert: "権限がありません"
     end
+  end
+
+  def set_book
+    @book = Book.find(params[:id])
+  end
+
+  def book_params
+    params.require(:book).permit(:title, :author, :isbn, :category, :total_copies)
+  end
 end

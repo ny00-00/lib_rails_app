@@ -3,8 +3,10 @@
 <%= render @book %>
 
 <div>
-  <%= link_to "Edit this book", edit_book_path(@book) %> |
+  <% if current_user&.role == 'librarian' %>
+    <%= link_to "Edit this book", edit_book_path(@book) %> |
+    <%= button_to "Destroy this book", @book, method: :delete, data: { confirm: "本当に削除しますか？" } %> |
+  <% end %>
   <%= link_to "Back to books", books_path %>
-
-  <%= button_to "Destroy this book", @book, method: :delete %>
 </div>
+

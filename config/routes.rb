@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "sessions/new"
+  get "sessions/create"
+  get "sessions/destroy"
   resources :books
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -12,4 +15,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  get    'login',  to: 'sessions#new'      # ログイン画面
+  post   'login',  to: 'sessions#create'   # ログイン処理
+  delete 'logout', to: 'sessions#destroy'  # ログアウト処理
+
+  resources :books
 end

@@ -23,6 +23,17 @@
   </head>
 
   <body>
+    <header>
+    <nav>
+      <%= link_to "図書館管理システム", books_path %>
+      <% if session[:user_id] %>
+        <%= link_to "ログアウト", logout_path, method: :delete %>
+      <% else %>
+        <%= link_to "ログイン", login_path %>
+      <% end %>
+    </nav>
+  </header>
+
     <%= yield %>
   </body>
 </html>

@@ -10,22 +10,22 @@
     <%= text_field_tag :query, params[:query], placeholder: "タイトル・著者を入力" %>
   </p>
   <p>
-    <%= select_tag :category,
-          options_for_select(@categories, params[:category]),
-          prompt: "カテゴリ選択" %>
+    <%= label_tag :category, "カテゴリ選択" %><br>
+    <%= select_tag :category, options_for_select(@categories, params[:category]), include_blank: "すべて" %>
   </p>
   <%= submit_tag "検索" %>
 <% end %>
 
-
-
 <div id="books">
   <% if @books.any? %>
     <% @books.each do |book| %>
-      <%= render book %>
-      <p>
-        <%= link_to "Show this book", book %>
-      </p>
+      <div class="book">
+        <h3><%= link_to book.title, book %></h3>
+        <p>著者: <%= book.author %></p>
+        <p>ISBN: <%= book.isbn %></p>
+        <p>カテゴリ: <%= book.category %></p>
+        <p>冊数: <%= book.total_copies %></p>
+      </div>
     <% end %>
   <% else %>
     <p>該当する書籍は見つかりませんでした。</p>
