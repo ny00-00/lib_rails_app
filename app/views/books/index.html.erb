@@ -1,0 +1,35 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Books" %>
+
+<h1>Books</h1>
+
+<%= form_with url: books_path, method: :get, local: true do %>
+  <p>
+    <%= label_tag :query, "書籍検索" %><br>
+    <%= text_field_tag :query, params[:query], placeholder: "タイトル・著者を入力" %>
+  </p>
+  <p>
+    <%= select_tag :category,
+          options_for_select(@categories, params[:category]),
+          prompt: "カテゴリ選択" %>
+  </p>
+  <%= submit_tag "検索" %>
+<% end %>
+
+
+
+<div id="books">
+  <% if @books.any? %>
+    <% @books.each do |book| %>
+      <%= render book %>
+      <p>
+        <%= link_to "Show this book", book %>
+      </p>
+    <% end %>
+  <% else %>
+    <p>該当する書籍は見つかりませんでした。</p>
+  <% end %>
+</div>
+
+<%= link_to "New book", new_book_path %>
