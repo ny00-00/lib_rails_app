@@ -22,21 +22,21 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-  <header>
-    <nav>
-      <div style="float: right;"> 
+<body>
+  <header class="site-header">
+    <nav class="nav-bar">
+      <h1 class="header-title">図書館システム</h1>
+      <div class="auth-buttons">
         <% if current_user %>
           <%= link_to "ログアウト", logout_path, method: :delete, class: "btn btn-danger" %>
         <% else %>
-          <%= link_to "ログイン", login_path, class: "btn btn-primary" %> 
+          <%= link_to "ログイン", login_path, class: "btn btn-primary" %>
         <% end %>
       </div>
     </nav>
   </header>
 
-
-
-    <%= yield %>
-  </body>
+  <%= yield %>
+</body>
 </html>
+

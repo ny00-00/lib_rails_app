@@ -1,24 +1,25 @@
+# app/controllers/sessions_controller.rb
 class SessionsController < ApplicationController
   def new
-    # ログインフォーム表示
+    # ログイン画面を表示するだけ
   end
 
   def create
     user = User.find_by(student_no: params[:student_no])
-    
-    # パスワードが一致したらログイン
-    if user && user.password == params[:password]
+
+    if user && user.password == params[:password]  # パスワードの一致を確認
       session[:user_id] = user.id
-      redirect_to books_path, notice: "ログインしました"
+      flash[:notice] = "ログインしました！"
+      redirect_to root_path  # ログイン後のリダイレクト先
     else
-      flash.now[:alert] = "学籍番号かパスワードが違います"
-      render :new
+      flash[:alert] = "学籍番号またはパスワードが違います。"
+      render :new  # ログイン画面を再表示
     end
   end
 
   def destroy
-    session.delete(:user_id)
-    redirect_to login_path, notice: "ログアウトしました"
+    session[:user_id] = nil
+    flash[:notice] = "ログアウトしました！"
+    redirect_to root_path
   end
 end
-

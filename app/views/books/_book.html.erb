@@ -1,27 +1,18 @@
-<div id="<%= dom_id book %>">
-  <p>
-    <strong>Title:</strong>
-    <%= book.title %>
-  </p>
-
-  <p>
-    <strong>Author:</strong>
-    <%= book.author %>
-  </p>
-
-  <p>
-    <strong>Isbn:</strong>
-    <%= book.isbn %>
-  </p>
-
-  <p>
-    <strong>Category:</strong>
-    <%= book.category %>
-  </p>
-
-  <p>
-    <strong>Total copies:</strong>
-    <%= book.total_copies %>
-  </p>
-
-</div>
+<table class="book-table">
+  <thead>
+    <tr>
+      <th>タイトル</th>
+      <th>著者</th>
+      <th>ISBN</th>
+      <th>カテゴリ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @book.title %></td>
+      <td><%= @book.author %></td>
+      <td><%= @book.isbn %></td>
+      <td><%= @book.category %></td>
+    </tr>
+  </tbody>
+</table>
