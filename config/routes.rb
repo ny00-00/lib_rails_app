@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "sessions/new"
+  get "sessions/create"
+  get "sessions/destroy"
   resources :books
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -13,6 +16,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  get 'sessions/new', to: 'sessions#new', as: 'login'
+  post 'sessions/create', to: 'sessions#create'
+  delete 'sessions/destroy', to: 'sessions#destroy', as: 'logout'
+  resource :session, only: [:new, :create, :destroy]
 
   resources :books
 end

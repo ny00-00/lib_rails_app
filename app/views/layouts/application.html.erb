@@ -23,16 +23,19 @@
   </head>
 
   <body>
-    <header>
+  <header>
     <nav>
-      <%= link_to "図書館管理システム", books_path %>
-      <% if session[:user_id] %>
-        <%= link_to "ログアウト", logout_path, method: :delete %>
-      <% else %>
-        <%= link_to "ログイン", login_path %>
-      <% end %>
+      <div style="float: right;"> 
+        <% if current_user %>
+          <%= link_to "ログアウト", logout_path, method: :delete, class: "btn btn-danger" %>
+        <% else %>
+          <%= link_to "ログイン", login_path, class: "btn btn-primary" %> 
+        <% end %>
+      </div>
     </nav>
   </header>
+
+
 
     <%= yield %>
   </body>
