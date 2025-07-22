@@ -1,6 +1,10 @@
 class BooksController < ApplicationController
-  before_action :require_login
+  # require_login をコメントアウトして、ログイン不要にする
+  # before_action :require_login
+  
+  # require_librarian をコメントアウトして、司書専用機能も外す
   # before_action :require_librarian, only: [:edit, :update, :destroy]
+  
   before_action :set_book, only: %i[ show edit update destroy ]
 
   # GET /books or /books.json
@@ -72,11 +76,12 @@ class BooksController < ApplicationController
 
   private
 
-  def require_librarian
-    unless current_user&.role == 'librarian'
-      redirect_to books_path, alert: "権限がありません"
-    end
-  end
+  # require_librarian メソッドは今は不要なのでコメントアウト
+  # def require_librarian
+  #   unless current_user&.role == 'librarian'
+  #     redirect_to books_path, alert: "権限がありません"
+  #   end
+  # end
 
   def set_book
     @book = Book.find(params[:id])
