@@ -1,25 +1,34 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @book %>
-
+<h2><%= @book.title %></h2>
+<p>著者: <%= @book.author %></p>
+<p>ISBN: <%= @book.isbn %></p>
+<p>カテゴリ: <%= @book.category %></p>
+<p>総冊数: <%= @book.total_copies %></p>
+<p>貸出中: <%= @book.borrowed_count %></p>
+<p>貸出可能数: <%= @book.available_count %></p>
 
 <div>
-  <%= link_to "Edit this book", edit_book_path(@book) %>
-  <%= button_to "Destroy this book", @book, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+  <%= link_to "編集する", edit_book_path(@book) %> |
+  <%= button_to "削除する", @book, method: :delete, data: { confirm: "本当に削除しますか？" } %>
 </div>
 
-<% if @book.total_copies - @book.borrowed_count > 0 %>
-  <!-- 貸出可能な場合のみボタンを表示 -->
-  <%= form_with url: borrow_book_path(user_id: current_user.id, book_id: @book.id), method: :post do %>
-    <%= submit_tag "この本を借りる", class: "btn btn-primary" %>
+<% if current_user %>
+  <% if @book.available_count > 0 %>
+    <%= form_with url: borrow_book_path(book_id: @book.id), method: :post do %>
+      <%= submit_tag "この本を借りる", class: "btn btn-primary" %>
+    <% end %>
+  <% else %>
+    <p style="color: red;">この本はすでに全て貸出中です。</p>
   <% end %>
-<% else %>
-  <p>この本はすでに全て貸出中です。</p>
-<% end %>
 
-<% if @book.loans.any? { |loan| loan.user == current_user && loan.returned_at.nil? } %>
-  <!-- 現在ユーザーが借りている本のみ返却ボタンを表示 -->
-  <%= form_with url: return_book_path(loan_id: @book.loans.find { |loan| loan.user == current_user && loan.returned_at.nil? }.id), method: :post do %>
-    <%= submit_tag "この本を返却する", class: "btn btn-warning" %>
+  <% loan = @book.loans.find_by(user: current_user, returned_at: nil) %>
+  <% if loan %>
+    <%= form_with url: return_book_path(loan), method: :patch do %>
+      <%= submit_tag "この本を返却する", class: "btn btn-warning" %>
+    <% end %>
   <% end %>
+<%= link_to "一覧に戻る", books_path, class: "btn btn-secondary" %>
+<% else %>
+  <p>ログインしてください。</p>
 <% end %>

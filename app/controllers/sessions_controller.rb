@@ -1,19 +1,18 @@
-# app/controllers/sessions_controller.rb
 class SessionsController < ApplicationController
   def new
-    # ログイン画面を表示するだけ
+    # ログイン画面を表示するだけ（問題なし）
   end
 
   def create
     user = User.find_by(student_no: params[:student_no])
 
-    if user && user.password == params[:password]  # パスワードの一致を確認
+    if user && user.password == params[:password]  # ← ここはauthenticateじゃなくてこれでOK
       session[:user_id] = user.id
       flash[:notice] = "ログインしました！"
-      redirect_to root_path  # ログイン後のリダイレクト先
+      redirect_to root_path
     else
-      flash[:alert] = "学籍番号またはパスワードが違います。"
-      render :new  # ログイン画面を再表示
+      flash.now[:alert] = "学籍番号またはパスワードが違います。"
+      render :new
     end
   end
 
@@ -23,3 +22,5 @@ class SessionsController < ApplicationController
     redirect_to root_path
   end
 end
+
+
